@@ -1,0 +1,36 @@
+@HangfireOrderDemo_HostAddress = https://localhost:7001
+
+### 1. Place an order. Returns at once; payment, confirmation, invoice and the
+###    review reminder all run in the background.
+POST {{HangfireOrderDemo_HostAddress}}/api/orders
+Content-Type: application/json
+
+{
+  "customerEmail": "jane@example.com",
+  "productName": "Wireless Mouse",
+  "quantity": 2
+}
+
+### 2. An invalid body. The controller validates before anything is queued,
+###    so this returns 400 and creates no order and no jobs.
+POST {{HangfireOrderDemo_HostAddress}}/api/orders
+Content-Type: application/json
+
+{
+  "customerEmail": "not-an-email",
+  "productName": "",
+  "quantity": 0
+}
+
+### 3. The numbers worth alerting on: queue depth, retries, and continuations
+###    that are still waiting for their parent job.
+GET {{HangfireOrderDemo_HostAddress}}/api/jobs/health
+
+### 4. Queue a job that always throws, so the Retries and Failed tabs can be
+###    seen without disturbing the happy path. Use the order id from step 1.
+POST {{HangfireOrderDemo_HostAddress}}/api/orders/1/fail-demo
+
+### 5. The dashboard itself is at /hangfire — open it in a browser.
+GET {{HangfireOrderDemo_HostAddress}}/hangfire
+
+###
