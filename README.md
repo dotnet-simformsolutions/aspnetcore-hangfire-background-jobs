@@ -13,8 +13,8 @@ that run twice, and a dashboard that must not be left open.
 Needs the **.NET 10 SDK**. No database required: Development uses in-memory storage.
 
 ```bash
-git clone https://github.com/hardik2015/HangfireOrderDemo
-cd HangfireOrderDemo/HangfireOrderDemo
+git clone https://github.com/dotnet-simformsolutions/aspnetcore-hangfire-background-jobs
+cd aspnetcore-hangfire-background-jobs
 dotnet run
 ```
 
@@ -73,7 +73,7 @@ from `appsettings.json`, so anything other than Development gets the realistic 3
 |---|---|---|
 | `POST` | `/api/orders` | Place an order and queue the four jobs. An invalid body returns `400` before any job is created |
 | `POST` | `/api/orders/{id}/fail-demo` | Queue a job that always throws, to reach the Retries and Failed tabs |
-| `GET` | `/api/jobs/health` | Queue depth, retries, and continuations still awaiting |
+| `GET` | `/api/jobs/health` | Queue depth, age of the oldest waiting job, retries, and continuations still awaiting |
 | `GET` | `/hangfire` | The dashboard |
 | `GET` | `/swagger` | Swagger UI (Development only) |
 
@@ -151,7 +151,8 @@ The sample is deliberately simple. Before copying it into a real system:
 ## Project layout
 
 ```
-HangfireOrderDemo/
+aspnetcore-hangfire-background-jobs/
+├── HangfireOrderDemo.csproj
 ├── Program.cs                          # Hangfire setup, dashboard, recurring job
 ├── appsettings.json                    # Storage:Provider, connection string
 ├── appsettings.Development.json        # InMemory storage + demo timings

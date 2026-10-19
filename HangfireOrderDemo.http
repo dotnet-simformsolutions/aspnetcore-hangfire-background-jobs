@@ -22,8 +22,8 @@ Content-Type: application/json
   "quantity": 0
 }
 
-### 3. The numbers worth alerting on: queue depth, retries, and continuations
-###    that are still waiting for their parent job.
+### 3. The numbers worth alerting on: queue depth, how long the oldest job has
+###    waited, retries, and continuations still waiting for their parent job.
 GET {{HangfireOrderDemo_HostAddress}}/api/jobs/health
 
 ### 4. Queue a job that always throws, so the Retries and Failed tabs can be
